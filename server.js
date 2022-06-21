@@ -23,6 +23,7 @@ const timeoutFunc = () => {
     if (date.getHours() === 16 && date.getMinutes() === 00 && date.getSeconds() <= 1) {
       axios.get(`http://localhost:${PORT}/api/stock-trading-light/market`);
     }
+
     axios.put(`http://localhost:${PORT}/api/stock-trading-light/light`);
     timeoutFunc();
   }, 1000);
