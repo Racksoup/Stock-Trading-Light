@@ -54,7 +54,7 @@ router.put('/light', async (req, res) => {
       );
       console.log('Light Turned Green');
     }
-    if (marketState === '"CLOSED"') {
+    if (marketState === '"CLOSED"' || marketState === '"POST"') {
       await axios.put(
         `http://${process.env.HUE_BRIDGE_IP}/api/${process.env.HUE_USERNAME}/lights/1/state`,
         { on: true, hue: 00000, bri: 85 }

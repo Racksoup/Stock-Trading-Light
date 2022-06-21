@@ -14,9 +14,6 @@ const PORT = process.env.PORT || 8085;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
-//axios.get('http://localhost:8080/api/stock-trading-light/yahoo');
-
-let f = 0;
 const timeoutFunc = () => {
   setTimeout(() => {
     const date = new Date();
@@ -26,9 +23,8 @@ const timeoutFunc = () => {
     if (date.getHours() === 16 && date.getMinutes() === 00 && date.getSeconds() <= 1) {
       axios.get(`http://localhost:${PORT}/api/stock-trading-light/market`);
     }
-    timeoutFunc();
-
     axios.put(`http://localhost:${PORT}/api/stock-trading-light/light`);
+    timeoutFunc();
   }, 1000);
 };
 
