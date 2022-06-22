@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-let marketState = '"CLOSED"';
+let marketState = '';
 //
 //
 //
@@ -35,7 +35,13 @@ router.get('/market', async (req, res) => {
   marketState = await axios
     .request(options)
     .then((res) => {
-      return JSON.stringify(res.data.marketSummaryAndSparkResponse.result[0].marketState);
+      let nasState;
+      res.data.marketSummaryAndSparkResponse.result.map((data) => {
+        if (data.fullExchangeName === 'Nasdaq GIDS') {
+          nasState = JSON.stringify(data.marketState);
+        }
+      });
+      return nasState;
     })
     .catch((err) => {
       console.error(err);
@@ -44,7 +50,8 @@ router.get('/market', async (req, res) => {
 //
 //
 //
-// Turn Light On /Off if Market Open/Closed
+// Turn Light On / Off if Market Open / Closed
+let j = 0;
 router.put('/light', async (req, res) => {
   try {
     if (marketState === '"OPEN"' || marketState === '"REGULAR"') {
@@ -52,14 +59,16 @@ router.put('/light', async (req, res) => {
         `http://${process.env.HUE_BRIDGE_IP}/api/${process.env.HUE_USERNAME}/lights/1/state`,
         { on: true, hue: 29000, bri: 235 }
       );
-      console.log('Light Turned Green');
+      console.log(`Light Turned Green - ${j}`);
+      j++;
     }
-    if (marketState === '"CLOSED"' || marketState === '"POST"') {
+    if (marketState === '"CLOSED"' || marketState === '"POST"' || marketState === '"POSTPOST"') {
       await axios.put(
         `http://${process.env.HUE_BRIDGE_IP}/api/${process.env.HUE_USERNAME}/lights/1/state`,
         { on: true, hue: 00000, bri: 85 }
       );
-      console.log('Light Turned Red');
+      console.log(`Light Turned Red - ${j}`);
+      j++;
     }
   } catch (error) {
     console.log(error);
