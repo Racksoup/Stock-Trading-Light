@@ -71,7 +71,9 @@ router.put('/light', async (req, res) => {
       j++;
     }
   } catch (error) {
-    console.log(error);
+    process.on('uncaughtException', (err) => {
+      console.log(err);
+    });
   }
 });
 
