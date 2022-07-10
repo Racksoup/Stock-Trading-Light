@@ -10,7 +10,7 @@ app.use(express.json({ extend: false }));
 
 app.use('/api/stock-trading-light', require('./routes/api/stockTradingLight'));
 
-const PORT = process.env.PORT || 8085;
+const PORT = process.env.PORT || 4200;
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
