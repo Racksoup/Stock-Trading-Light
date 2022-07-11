@@ -53,13 +53,16 @@ router.get('/market', async (req, res) => {
 // Turn Light On / Off if Market Open / Closed
 let j = 0;
 router.put('/light', async (req, res) => {
+  const date = new Date();
   try {
     if (marketState === '"OPEN"' || marketState === '"REGULAR"') {
       await axios.put(
         `http://${process.env.HUE_BRIDGE_IP}/api/${process.env.HUE_USERNAME}/lights/1/state`,
         { on: true, hue: 29000, bri: 235 }
       );
-      console.log(`Light Turned Green - ${j}`);
+      console.log(
+        `Light Turned Green - ${j} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+      );
       j++;
     }
     if (marketState === '"CLOSED"' || marketState === '"POST"' || marketState === '"POSTPOST"') {
@@ -67,7 +70,9 @@ router.put('/light', async (req, res) => {
         `http://${process.env.HUE_BRIDGE_IP}/api/${process.env.HUE_USERNAME}/lights/1/state`,
         { on: true, hue: 00000, bri: 85 }
       );
-      console.log(`Light Turned Red - ${j}`);
+      console.log(
+        `Light Turned Red - ${j} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`
+      );
       j++;
     }
   } catch (error) {
