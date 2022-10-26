@@ -13,6 +13,11 @@ app.use('/api/rocket', require('./routes/api/rocket'));
 
 const PORT = process.env.PORT || 4200;
 
+process.on('uncaughtException', function (err) {
+  console.error(err);
+  console.log('Node NOT Exiting...');
+});
+
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 axios.get(`http://localhost:${PORT}/api/stock-trading-light/market`);
