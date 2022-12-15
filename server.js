@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const axios = require('axios');
+const { marketTimeout } = require('./middleware/marketTimeout');
 
 dotenv.config();
 
@@ -22,3 +23,5 @@ app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
 axios.get(`http://localhost:${PORT}/api/stock-trading-light/market`);
 axios.get(`http://localhost:${PORT}/api/rocket/get-data`);
+
+marketTimeout();

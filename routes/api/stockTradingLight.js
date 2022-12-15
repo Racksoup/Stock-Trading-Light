@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-const PORT = process.env.PORT || 4200;
 let marketState = '';
 //
 //
@@ -70,20 +69,4 @@ router.put('/light', async (req, res) => {
   }
 });
 
-const marketTimeout = () => {
-  setTimeout(() => {
-    const date = new Date();
-    if (date.getHours() === 9 && date.getMinutes() === 30 && date.getSeconds() <= 19) {
-      axios.get(`http://localhost:${PORT}/api/stock-trading-light/market`);
-    }
-    if (date.getHours() === 16 && date.getMinutes() === 00 && date.getSeconds() <= 19) {
-      axios.get(`http://localhost:${PORT}/api/stock-trading-light/market`);
-    }
-
-    axios.put(`http://localhost:${PORT}/api/stock-trading-light/light`);
-    marketTimeout();
-  }, 10000);
-};
-
-marketTimeout();
 module.exports = router;
