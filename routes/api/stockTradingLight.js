@@ -3,9 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 
 let marketState = '';
-//
-//
-//
+
 // Get Market Open/Close State
 router.get('/market', async (req, res) => {
   const options = {
@@ -34,9 +32,7 @@ router.get('/market', async (req, res) => {
       });
     });
 });
-//
-//
-//
+
 // Turn Light On / Off if Market Open / Closed
 let j = 0;
 router.put('/light', async (req, res) => {
