@@ -22,8 +22,8 @@ process.on('uncaughtException', function (err) {
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
-// axios.get(`http://localhost:${PORT}/api/stock-trading-light/market`);
-// marketTimeout();
+axios.get(`http://localhost:${PORT}/api/stock-trading-light/market`);
+marketTimeout();
 
 getRocketData();
 rocketLoop();
