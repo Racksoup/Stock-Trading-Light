@@ -1,7 +1,8 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const axios = require('axios');
-const { marketTimeout } = require('./middleware/marketTimeout');
+const { marketTimeout } = require('./middleware/stock');
+const { rocketLoop, getRocketData } = require('./middleware/rocket');
 
 dotenv.config();
 
@@ -12,7 +13,7 @@ app.use(express.json({ extend: false }));
 app.use('/api/stock-trading-light', require('./routes/api/stockTradingLight'));
 app.use('/api/rocket', require('./routes/api/rocket'));
 
-const PORT = process.env.PORT || 4200;
+const PORT = process.env.PORT || 42001;
 
 process.on('uncaughtException', function (err) {
   console.error(err);
@@ -21,7 +22,8 @@ process.on('uncaughtException', function (err) {
 
 app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
 
-axios.get(`http://localhost:${PORT}/api/stock-trading-light/market`);
-axios.get(`http://localhost:${PORT}/api/rocket/get-data`);
+// axios.get(`http://localhost:${PORT}/api/stock-trading-light/market`);
+// marketTimeout();
 
-marketTimeout();
+getRocketData();
+rocketLoop();
